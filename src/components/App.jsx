@@ -15,7 +15,7 @@ class App extends Component {
 
     async getSongs(){
         let response = await axios.get('http://127.0.0.1:8000/music/');
-        console.log(response.data[0].album);
+        console.log(response.data);
         this.setState({
             songsFromApi: response.data
         })
@@ -24,9 +24,13 @@ class App extends Component {
     render() { 
         return ( 
             <div>
-                <h1>Hello World</h1>
+                <h1><tr><th>Song Title</th><th>Album</th><th>Artist</th><th>Genre</th><th>Release Date</th></tr></h1>
                 <hr/>
-    
+                {this.state.songsFromApi.map(song => {
+                    return <table>
+                        <tr><th>{song.title}</th><th>{song.album}</th><th>{song.artist}</th><th>{song.genre}</th><th>{song.release_date}</th></tr>
+                    </table>
+                })}
             </div>
          );
     }
