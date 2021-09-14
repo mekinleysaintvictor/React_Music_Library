@@ -21,6 +21,18 @@ class App extends Component {
         })
     }
 
+    handleDelete(id, e){
+        axios.delete(`http://127.0.0.1:8000/music/${id}/`).then(res => {
+            console.log(res);
+            console.log(res.data);
+
+            const songs = this.state.songsFromApi.filter(song => song.id !== id);
+            this.setState({
+                songs
+            });
+        })
+    }
+
     render() { 
         return ( 
             <div>
@@ -28,7 +40,10 @@ class App extends Component {
                 <hr/>
                 {this.state.songsFromApi.map(song => {
                     return <table>
-                        <tr><th>{song.title}</th><th>{song.album}</th><th>{song.artist}</th><th>{song.genre}</th><th>{song.release_date}</th></tr>
+                        <tr>
+                            <th>{song.title}</th><th>{song.album}</th><th>{song.artist}</th><th>{song.genre}</th><th>{song.release_date}</th>
+                            <th><button type="button" onClick={(e) => this.handleDelete(song.id, e)}>Delete</button></th>
+                        </tr>
                     </table>
                 })}
             </div>
