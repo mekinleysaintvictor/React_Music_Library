@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import SongForm from './SongForm/SongForm';
+import './App.css';
 import axios from 'axios';
 
 class App extends Component {
@@ -21,14 +23,14 @@ class App extends Component {
         })
     }
 
-    handleDelete(id, e){
+    handleDelete(id){
         axios.delete(`http://127.0.0.1:8000/music/${id}/`).then(res => {
             console.log(res);
             console.log(res.data);
 
             const songs = this.state.songsFromApi.filter(song => song.id !== id);
             this.setState({
-                songs
+                songsFromApi: songs
             });
         })
     }
@@ -36,16 +38,36 @@ class App extends Component {
     render() { 
         return ( 
             <div>
-                <h1><tr><th>Song Title</th><th>Album</th><th>Artist</th><th>Genre</th><th>Release Date</th></tr></h1>
+                <h1 class="header">Saint Victor Music Library</h1>
                 <hr/>
-                {this.state.songsFromApi.map(song => {
-                    return <table>
+                <table class="table">
+                    <thead class="table-header">
                         <tr>
-                            <th>{song.title}</th><th>{song.album}</th><th>{song.artist}</th><th>{song.genre}</th><th>{song.release_date}</th>
-                            <th><button type="button" onClick={(e) => this.handleDelete(song.id, e)}>Delete</button></th>
+                            <th>Song Title</th>
+                            <th>Album</th>
+                            <th>Artist</th>
+                            <th>Genre</th>
+                            <th>Release Date</th>
+                            <th>Remove</th>
                         </tr>
-                    </table>
-                })}
+                    </thead>
+                    <tbody class="table-body">
+                        {this.state.songsFromApi.map(song => {
+                            return (
+                                <tr>
+                                    <td>{song.title}</td>
+                                    <td>{song.album}</td>
+                                    <td>{song.artist}</td>
+                                    <td>{song.genre}</td>
+                                    <td>{song.release_date}</td>
+                                    <td><button type="button" onClick={() => this.handleDelete(song.id)}>Delete</button></td>
+                                </tr>
+                            );
+                            
+                        })}
+                    </tbody>                 
+                </table>
+                <SongForm addSong={this.addSongs} getSong={() => this.getSongs()}/>
             </div>
          );
     }
