@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './SongForm.css'
 import axios from 'axios';
 
 class SongForm extends Component {
@@ -24,8 +25,8 @@ class SongForm extends Component {
 
     render(){
         return(
-            <form onSubmit={(event) => this.handleSubmit(event)}>
-                    <label>Song Name</label>
+            <form class="form col-lg-4 col-md-4 col-sm-12" onSubmit={(event) => this.handleSubmit(event)}>
+                    <label class="button_label">Song Name</label>
                     <input type="text" name="title" onChange={this.handleChange} value={this.state.title} />
                     <label>Album</label>
                     <input type="text" name="album" onChange={this.handleChange} value={this.state.album}/>
